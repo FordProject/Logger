@@ -1,0 +1,42 @@
+body {
+  background: #111;
+  color: white;
+  font-family: sans-serif;
+  text-align: center;
+  padding-top: 60px;
+}
+
+.loader {
+  font-size: 18px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.form-container {
+  max-width: 400px;
+  margin: auto;
+}
+
+input {
+  padding: 10px;
+  width: 100%;
+  font-size: 1em;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 1em;
+}
+
+code {
+  display: inline-block;
+  background: #222;
+  padding: 5px;
+  margin-top: 10px;
+  word-break: break-all;
+}
