@@ -41,7 +41,7 @@ function sendToTelegram(message, redirectUrl) {
     body: JSON.stringify({
       chat_id: CHAT_ID,
       text: message,
-      parse_mode: "Markdown"
+      parse_mode: "HTML"
     })
   }).finally(() => window.location.href = redirectUrl);
 }
